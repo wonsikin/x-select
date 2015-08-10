@@ -82,7 +82,7 @@ Example:
 
     <template>
         <div on-tap="open">
-            <paper-input label="[[label]]" id="input"></paper-input>
+            <paper-input label="[[label]]" id="input" value$="{{selectedItem.value}}"></paper-input>
         </div>
         <iron-dropdown id="dropdown" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" disabled="[[disabled]]" open-animation-config="[[openAnimationConfig]]" close-animation-config="[[closeAnimationConfig]]">
             <ul class="dropdown-content">
