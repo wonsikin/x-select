@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../iron-flex-layout/classes/iron-flex-layout.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-input/paper-input.html">
@@ -20,7 +22,7 @@ An element providing a solution to no problem in particular.
 
 Example:
 
-    <x-select></x-select>
+    <x-select items="[[optionArray]]" selected-item="{{selectedItem}}" label="labelName"></x-select>
 
 @demo
 -->
@@ -73,22 +75,25 @@ Example:
             color: #fff;
         }
 
-        #clear {
-            text-align: center;
-            padding: 0.5em;
-            border-bottom: 1px solid #eee;
+        .input-group {
+            position: relative;
+        }
+
+        .input-group > iron-icon {
+            position: absolute;
+            right: 5px;
+            bottom: 10px;
+            cursor: pointer;
         }
     </style>
 
     <template>
-        <div on-tap="open">
-            <paper-input label="[[label]]" id="input" value$="{{selectedItem.value}}"></paper-input>
+        <div class="input-group">
+            <paper-input id="input" readonly label="[[label]]" value$="{{selectedItem.value}}" on-tap="open"></paper-input>
+            <iron-icon icon="clear" on-tap="clear" hidden$="{{!isClearActive}}"></iron-icon>
         </div>
         <iron-dropdown id="dropdown" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" disabled="[[disabled]]" open-animation-config="[[openAnimationConfig]]" close-animation-config="[[closeAnimationConfig]]">
             <ul class="dropdown-content">
-                <div on-tap="clear" id="clear">
-                    <iron-icon icon="clear"></iron-icon>
-                </div>
                 <template is="dom-repeat" items="[[items]]">
                     <li on-tap="handleItemSelectedTapped"><a href="javascript:void(0)">[[item.value]]</a></li>
                 </template>
@@ -123,6 +128,10 @@ Example:
                 type: Object,
                 notify: true,
                 reflectToAttribute: true
+            },
+            isClearActive: {
+                type: Boolean,
+                value: false
             },
             label: String,
             verticalAlign: String,
@@ -183,7 +192,16 @@ Example:
             this.selectedItem = e.model.item;
             this.$.input.value = e.model.item.value;
             this.$.dropdown.close();
+        },
+        observers: [
+            '_watchValueChange(selectedItem.value)'
+        ],
+        /**
+         * if selectedItem.value exist ,show the clear icon.
+         *
+         */
+        _watchValueChange: function(value) {
+            this.set('isClearActive', !!value);
         }
-
     });
 </script>
