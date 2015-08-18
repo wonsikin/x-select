@@ -78,19 +78,14 @@ Example:
         .input-group {
             position: relative;
         }
-
-        .input-group > iron-icon {
-            position: absolute;
-            right: 5px;
-            bottom: 10px;
-            cursor: pointer;
-        }
     </style>
 
     <template>
         <div class="input-group">
-            <paper-input id="input" readonly label="[[label]]" value$="{{selectedItem.value}}" on-tap="open"></paper-input>
-            <iron-icon icon="clear" on-tap="clear" hidden$="{{!isClearActive}}"></iron-icon>
+            <paper-input id="input" readonly label="[[label]]" value$="{{selectedItem.value}}" on-tap="open">
+                <iron-icon icon="arrow-drop-down" suffix hidden$="{{isClearActive}}"></iron-icon>
+                <iron-icon icon="clear" on-tap="clear" suffix hidden$="{{!isClearActive}}"></iron-icon>
+            </paper-input>
         </div>
         <iron-dropdown id="dropdown" vertical-align="[[verticalAlign]]" horizontal-align="[[horizontalAlign]]" disabled="[[disabled]]" open-animation-config="[[openAnimationConfig]]" close-animation-config="[[closeAnimationConfig]]">
             <ul class="dropdown-content">
@@ -180,6 +175,7 @@ Example:
          *
          */
         clear: function() {
+            e.stopPropagation();
             this.$.input.value = '';
             this.selectedItem = undefined;
             this.$.dropdown.close();
