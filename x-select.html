@@ -102,7 +102,10 @@ Example:
     Polymer({
 
         is: 'x-select',
-
+        behaviors: [
+            Polymer.IronControlState,
+            Polymer.IronButtonState
+        ],
         properties: {
             /**
              * 'items' that will show in select list/
