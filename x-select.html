@@ -177,7 +177,7 @@ Example:
          * clear the selected item and set input filed undefined.
          *
          */
-        clear: function() {
+        clear: function(e) {
             e.stopPropagation();
             this.$.input.value = '';
             this.selectedItem = undefined;
